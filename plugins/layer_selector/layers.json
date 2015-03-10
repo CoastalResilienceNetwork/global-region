@@ -34,7 +34,7 @@
     },
 	{
         "agsSource": {
-            "url": "http://services.coastalresilience.org:6080/arcgis/rest/services/Global",
+            "url": "http://dev.services2.coastalresilience.org:6080/arcgis/rest/services/Global",
             "folderTitle": "Coastal Resilience (Global)",
             "folders": [
                 {
