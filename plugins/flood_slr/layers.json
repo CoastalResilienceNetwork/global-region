@@ -96,7 +96,7 @@
                     ]
                 },
 				{
-                    "url": "http://cmaps1.coast.noaa.gov/arcgis/rest/services",
+                    "url": "http://maps1.coast.noaa.gov/arcgis/rest/services",
 					"name": "dc_slr",
 					"groupFolder": "NOAA Sea Level Rise/Mapping Confidence",
                     "services": [
