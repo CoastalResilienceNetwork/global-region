@@ -655,7 +655,6 @@ function (declare,
 		},
 				
 		setState: function (state) { 
-			this.changeGeography(state,false);
 		},
     });
 });
