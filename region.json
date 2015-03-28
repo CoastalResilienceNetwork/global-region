@@ -63,8 +63,8 @@
         "hideByDefault": false,
         "areas": [
             {
-                "id": "temperate-western-atlantic",
-                "display": "U.S. Atlantic Coast",
+                "id": "cold-temperate-northwestern-atlantic",
+                "display": "Northwestern Atlantic Coast",
                 "details": "MEOW region",
                 "shape": [[-77.35871624037601, 34.55968453400416], [-77.35871624037601, 51.89649130485867], [-42.793020450897025, 51.89649130485867], [-42.793020450897025, 34.55968453400416], [-77.35871624037601, 34.55968453400416]],
                 "availablePlugins": ["layer_selector", "flood_slr"],
