@@ -63,16 +63,16 @@
         "hideByDefault": false,
         "areas": [
             {
-                "id": "Ventura",
-                "display": "Ventura",
-                "details": "Ventura, CA",
-                "shape": [[-119.401817,34.333930],[-119.026909,34.333930],[-119.026909,34.115917],[-119.401817,34.115917]]
+                "id": "temperate-western-atlantic",
+                "display": "U.S. Atlantic Coast",
+                "details": "MEOW region",
+                "shape": [[-0.0007556403591165613, 0.0002557189203446392], [-0.0007556403591165613, 0.0004006971257344595], [-0.0006074695412047153, 0.0004006971257344595], [-0.0006074695412047153, 0.0002557189203446392], [-0.0007556403591165613, 0.0002557189203446392]]
             },
             {
-                "id": "Monterey",
-                "display": "Monterey",
-                "details": "Monterey, CA",
-                "shape": [[-119.401817,34.333930],[-119.026909,34.333930],[-119.026909,34.115917],[-119.401817,34.115917]]
+                "id": "coral-triangle",
+                "display": "Coral Triangle",
+                "details": "MOW region",
+                "shape": [[0.001007054552638689, -0.00013664902607815458], [0.001007054552638689, 0.0001683047583477957], [0.0014884482386738978, 0.0001683047583477957], [0.0014884482386738978, -0.00013664902607815458], [0.001007054552638689, -0.00013664902607815458]]
             }
         ]
     },
@@ -85,8 +85,8 @@
             "showByDefault": true,
             "categories": [
               {
-                "name": "What's new?",
-                "description": "Interactive map gallery for adaptation, restoration and conservation planning.",
+                "name": "One-click Interactive Map",
+                "description": "Customized maps scenarios for adaptation, restoration and conservation planning.",
                 "issues": [
                     {
                       "name": "Coasts at Risk",
