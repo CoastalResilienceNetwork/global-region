@@ -63,11 +63,11 @@
         "hideByDefault": false,
         "areas": [
             {
-                "id": "cold-temperate-northwestern-atlantic",
-                "display": "Northwestern Atlantic Coast",
-                "details": "MEOW region",
-                "shape": [[-77.35871624037601, 34.55968453400416], [-77.35871624037601, 51.89649130485867], [-42.793020450897025, 51.89649130485867], [-42.793020450897025, 34.55968453400416], [-77.35871624037601, 34.55968453400416]],
-                "availablePlugins": ["layer_selector", "flood_slr"],
+                "id": "caribbean",
+                "display": "Caribbean",
+                "details": "MOW region",
+                "shape": [[-97.89321855358747, -25.338059372325663], [-97.89321855358747, 35.67849479149899], [13.848480665105166, 35.67849479149899], [13.848480665105166, -25.338059372325663], [-97.89321855358747, -25.3380593723256]],
+                "availablePlugins": ["layer_selector", "natural_defenses"],
                 "outlineColor": "#000",
                 "noFill": true
             },
@@ -76,7 +76,34 @@
                 "display": "Coral Triangle",
                 "details": "MOW region",
                 "shape": [[92.05583899705736, -15.211733080635105], [92.05583899705736, 18.735582236496978], [165.69329813458438, 18.735582236496978], [165.69329813458438, -15.211733080635105], [92.05583899705736, -15.211733080635105]],
+                "availablePlugins": ["layer_selector"],
+                "outlineColor": "#000",
+                "noFill": true
+            },
+            {
+                "id": "gulf-of-california",
+                "display": "Gulf of California",
+                "details": "MOW region",
+                "shape": [[-115.03522701681075, 20.414187629710725], [-115.03522701681075, 31.9709333346525], [-105.18496660072324, 31.9709333346525], [-105.18496660072324, 20.414187629710725], [-115.03522701681075, 20.4141876297107]],
                 "availablePlugins": ["layer_selector", "natural_defenses"],
+                "outlineColor": "#000",
+                "noFill": true
+            },
+            {        
+                "id": "micronesia",
+                "display": "Micronesia",
+                "details": "MEOW region",
+                "shape": [[-179.99998854118687, -31.281454485954164], [-179.99998854118687, 31.515483268973874], [179.99998854118684, 31.515483268973874], [179.99998854118684, -31.281454485954164], [-179.99998854118687, -31.28145448]],
+                "availablePlugins": ["layer_selector", "flood_slr"],
+                "outlineColor": "#000",
+                "noFill": true
+            },
+            {             
+                "id": "cold-temperate-northwestern-atlantic",
+                "display": "Northwestern Atlantic Coast",
+                "details": "MEOW region",
+                "shape": [[-77.35871624037601, 34.55968453400416], [-77.35871624037601, 51.89649130485867], [-42.793020450897025, 51.89649130485867], [-42.793020450897025, 34.55968453400416], [-77.35871624037601, 34.55968453400416]],
+                "availablePlugins": ["layer_selector", "flood_slr"],
                 "outlineColor": "#000",
                 "noFill": true
             }
