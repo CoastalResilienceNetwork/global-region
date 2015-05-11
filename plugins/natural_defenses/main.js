@@ -17,7 +17,7 @@ define([
 	'plugins/natural_defenses/ConstrainedMoveable',
 	'plugins/natural_defenses/jquery-ui-1.11.0/jquery-ui',
 		
-	"esri/request",
+	"esri/request", 
 	"esri/layers/ArcGISDynamicMapServiceLayer",
 	"esri/layers/ImageParameters",
 	"esri/layers/ArcGISImageServiceLayer",
@@ -128,71 +128,16 @@ function (declare,
         toolbarType: "sidebar",
 		showServiceLayersInLegend: true,
         allowIdentifyWhenActive: false,
-		_hasactivated: false,
+		rendered: false,
 		infoGraphic: "plugins/natural_defenses/cd_info.jpg",
 		height: 300,
-        activate: function () { 
-			if (this.currentLayer != undefined)  {
-				this.currentLayer.setVisibility(true);
-			}
-			if ((this._hasactivated == false) && (this.explorerObject.regions.length == 1)) {
-				this.changeGeography(this.explorerObject.regions[0], true);
-			};
-			this._hasactivated = true;
-			this.render();
-		},
         
-		deactivate: function () { 
-			
-		},
-			   
-		hibernate: function () { 
-			if (this.currentLayer != undefined)  {
-				this.currentLayer.setVisibility(false);
-			}
-			if (this.flClick != undefined) {
-				this.flClick.clear();
-			}
-			if (this.flHover != undefined) {
-				this.flHover.clear();
-			}
-			if (this.sliderpane != undefined) { 
-				this.sliderpane.destroy();
-				this.map.removeLayer(this.currentLayer)
-			}
-			if (this.tabarea != undefined) {
-				//domStyle.set(this.tabarea.domNode, 'display', '')
-				this.tabarea.destroy();
-			}
-			if (this.buttonpane != undefined) { 
-				this.buttonpane.destroy();
-			}	
-			//domStyle.set(this.textnode, "display", "");
-			this._hasactivated = false;
-			this.explorerObject = dojo.eval("[" + explorer + "]")[0];
-			$('.dijitContentPane').css("margin-top","0px");
-		},
-			   
-		render: function() {
-			
-		},		
-				
-		resize: function(w, h) {
-			cdg = domGeom.position(this.container);
-			if (cdg.h == 0) {
-				this.sph = this.height - 112 
-			} 
-			else {
-				this.sph = cdg.h-73;
-			}
-			domStyle.set(this.sliderpane.domNode, "height", this.sph + "px");
-		},
-			   
 		initialize: function (frameworkParameters) {
 				
 			declare.safeMixin(this, frameworkParameters);
 			domClass.add(this.container, "claro");
-			this.explorerObject = dojo.eval("[" + explorer + "]")[0];
+			this.config = dojo.eval("[" + explorer + "]")[0];
+			this.controls = this.config.controls
 			
 			con = dom.byId('plugins/natural_defenses-0');
 			domStyle.set(con, "width", "310px");
@@ -204,8 +149,8 @@ function (declare,
 				domStyle.set(con1, "height", "300px");
 			}
 			
-			if (this.explorerObject.betweenGroups == undefined) {
-				this.explorerObject.betweenGroups = "+";
+			if (this.config.betweenGroups == undefined) {
+				this.config.betweenGroups = "+";
 			}
 			
 			pslidernode = domConstruct.create("span", { id: "big", innerHTML: "<span style='padding:0px;'> </span>" });
@@ -239,14 +184,60 @@ function (declare,
 				domStyle.set(this.infoarea.domNode, 'display', 'none');
 			}));	
 		},
-				
-		changeGeography: function(geography, zoomto) {
-			if (zoomto == undefined) {
-				zoomto = true;
+		
+		activate: function () { 
+			if (this.rendered == false) {
+				this.rendered = true;
+				this.render();
+				this.currentLayer.setVisibility(true);
+			} else {
+				if (this.currentLayer != undefined)  {
+					this.currentLayer.setVisibility(true);	
+				}
+				this.resize();
 			}
-			  		   
-			this.geography = geography;
-			     
+		},
+        
+		deactivate: function () { 
+			
+		},
+			   
+		hibernate: function () { 
+			if (this.currentLayer != undefined)  {
+				this.currentLayer.setVisibility(false);
+			}
+			if (this.flClick != undefined) {
+				this.map.removeLayer(this.flClick);
+			}
+			if (this.flHover != undefined) {
+				this.map.removeLayer(flHover);
+			}
+			if (this.sliderpane != undefined) { 
+				this.sliderpane.destroy();
+			}
+			if (this.tabarea != undefined) {
+				this.tabarea.destroy();
+			}
+			if (this.buttonpane != undefined) { 
+				this.buttonpane.destroy();
+			}	
+			this.rendered = false;
+		},
+			   
+		resize: function(w, h) {
+			cdg = domGeom.position(this.container);
+			if (cdg.h == 0) {
+				this.sph = this.height - 112 
+			} 
+			else {
+				this.sph = cdg.h-73;
+			}
+			domStyle.set(this.sliderpane.domNode, "height", this.sph + "px");
+		},
+			   
+		
+				
+		render: function() {
 			if (this.sliderpane != undefined) { 
 				this.sliderpane.destroy();
 				this.map.removeLayer(this.currentLayer)
@@ -260,7 +251,6 @@ function (declare,
 			mymap = dom.byId(this.map.id);
 			a = dojoquery(mymap).parent();
 			this.b = makeid();
-			console.log(this.b)	
 			
 			this.tabarea = new ContentPane({
 			  id: this.b,
@@ -308,17 +298,13 @@ function (declare,
 				handle: dom.byId(this.sliderpane.id + "tabHeader"),	
 				within: true
 			});
-			
-			/*this.buttonpane = new ContentPane({
-				style:"border-top-style:groove !important; height:50px;overflow: hidden !important;background-color:#F3F3F3 !important;padding:2px !important;"
-			});*/
 				
 			this.buttonpane = new ContentPane({
 				style:"border-top-style:groove !important; height:40px; overflow: hidden !important; padding:2px !important;"
 			});				
 			dom.byId(this.container).appendChild(this.buttonpane.domNode);
 			
-			var projectDesc = this.explorerObject.projectDesc
+			var projectDesc = this.config.projectDesc
 			if (projectDesc != undefined) {
 				pdButton = new Button({
 					label: "Project Description",
@@ -329,7 +315,7 @@ function (declare,
 				});
 				this.buttonpane.domNode.appendChild(pdButton.domNode);
 			}
-			var methods = this.explorerObject.methods
+			var methods = this.config.methods
 			if (methods != undefined) {
 				methodsButton = new Button({
 					label: "Supplementary Info",
@@ -339,68 +325,16 @@ function (declare,
 				this.buttonpane.domNode.appendChild(methodsButton.domNode);
 			}
 			
-			//domStyle.set(this.buttonpane.domNode, 'display', 'none');
-			
-			if (this.explorerObject.globalText != undefined) {
-				explainText = domConstruct.create("div", {style:"margin-top:-5px;margin-bottom:10px", innerHTML: this.explorerObject.globalText});
+			if (this.config.globalText != undefined) {
+				explainText = domConstruct.create("div", {style:"margin-top:-5px;margin-bottom:10px", innerHTML: this.config.globalText});
 				this.sliderpane.domNode.appendChild(explainText);
 			}
 			
-			array.forEach(geography.items, lang.hitch(this,function(entry, i){
-				if (entry.type == "header") {
-					nslidernodeheader = domConstruct.create("div", {style:"margin-top:10px;margin-bottom:5px", innerHTML: "<b>" + entry.text + ":</b>"});
-					this.sliderpane.domNode.appendChild(nslidernodeheader);	
-				} 
-				if (entry.type == "headerh") {
-					nslidernodeheader = domConstruct.create("div", {id: this.sliderpane.id + entry.type, style:"display:none;margin-top:10px;margin-bottom:5px", innerHTML: "<b>" + entry.text + ":</b>"});
-					this.sliderpane.domNode.appendChild(nslidernodeheader);	
-				} 
+			array.forEach(this.controls, lang.hitch(this,function(entry, i){
 				if (entry.type == "text") {
 					nslidernodeheader = domConstruct.create("div", {style:"margin-top:5px;margin-bottom:7px", innerHTML: entry.text});
 					this.sliderpane.domNode.appendChild(nslidernodeheader);	
 				} 
-				if (entry.type == "select") {
-					maindiv = domConstruct.create("div", {id: this.sliderpane.id + entry.type, style:"margin-top:10px; margin-bottom:10px;", innerHTML: "<b>" + entry.header + "</b>"});
-					this.sliderpane.domNode.appendChild(maindiv);
-					
-					spacer = domConstruct.create("div", {style:"height:5px"});
-					maindiv.appendChild(spacer);
-					
-					fieldSelect = domConstruct.create("div", {id: this.sliderpane.id + entry.name, style:"margin-top:10px;margin-bottom:10px"});
-					maindiv.appendChild(fieldSelect);
-							
-					this.select = new Select({
-						name: entry.name,
-						style: "width: 135px",
-						options: [
-							{ label: entry.options[0].label, value: entry.options[0].value, selected: entry.options[0].selected, disabled: entry.options[0].disabled },
-							{ label: entry.options[1].label, value: entry.options[1].value },
-							{ label: entry.options[2].label, value: entry.options[2].value },
-							{ label: entry.options[3].label, value: entry.options[3].value },
-							{ label: entry.options[4].label, value: entry.options[4].value }
-						],
-						onChange: lang.hitch(this,function(e) {
-							this.fieldSelected(e);
-						})
-					}, fieldSelect);
-					
-					equals = domConstruct.create("div", {style:"display:inline; margin-top:10px; margin-bottom:10px;", innerHTML: " = "});
-					maindiv.appendChild(equals);
-					
-					attSelect = domConstruct.create("div", {id: this.sliderpane.id + entry.name1, style:"display:inline; margin-top:10px;margin-bottom:10px"});
-					maindiv.appendChild(attSelect);
-							
-					this.select1 = new Select({
-						name: entry.name1,
-						style: "width: 120px",
-						options: [
-							{ label: entry.options1[0].label, value: entry.options1[0].value, selected: entry.options1[0].selected, disabled: entry.options1[0].disabled }
-						],
-						onChange: lang.hitch(this,function(e) {
-							this.attributeSelected(e);
-						})
-					}, attSelect);
-				}
 				if (entry.type == "select1") {
 					maindiv = domConstruct.create("div", {id: this.sliderpane.id + entry.type, style:"margin-top:10px; margin-bottom:10px;", innerHTML: "<b>" + entry.header + "</b>"});
 					this.sliderpane.domNode.appendChild(maindiv);
@@ -409,17 +343,16 @@ function (declare,
 					maindiv.appendChild(spacer);
 					
 					fieldSelect = domConstruct.create("div", {id: this.sliderpane.id + entry.name, style:"margin-top:10px;margin-bottom:10px"});
-					maindiv.appendChild(fieldSelect);
-							
-					this.select = new Select({
+					maindiv.appendChild(fieldSelect);	
+					this.symSelect = new Select({
 						name: entry.name,
 						style: "width: 135px",
 						options: [
 							{ label: entry.options[0].label, value: entry.options[0].value, selected: entry.options[0].selected, disabled: entry.options[0].disabled },
-							{ label: entry.options[1].label, value: entry.options[1].value },
-							{ label: entry.options[2].label, value: entry.options[2].value },
-							{ label: entry.options[3].label, value: entry.options[3].value },
-							{ label: entry.options[4].label, value: entry.options[4].value }
+							{ label: entry.options[1].label, value: entry.options[1].value, selected: entry.options[1].selected },
+							{ label: entry.options[2].label, value: entry.options[2].value, selected: entry.options[2].selected, },
+							{ label: entry.options[3].label, value: entry.options[3].value, selected: entry.options[3].selected, },
+							{ label: entry.options[4].label, value: entry.options[4].value, selected: entry.options[4].selected, }
 						],
 						onChange: lang.hitch(this,function(e) {
 							this.symbologySelected(e);
@@ -436,6 +369,132 @@ function (declare,
 							this.showAll();
 						})
 					}, btnHolder);
+				}
+				if (entry.type == "select") {
+					maindiv = domConstruct.create("div", {id: this.sliderpane.id + entry.type, style:"margin-top:10px; margin-bottom:10px;", innerHTML: "<b>" + entry.header + "</b>"});
+					this.sliderpane.domNode.appendChild(maindiv);
+					
+					spacer = domConstruct.create("div", {style:"height:5px"});
+					maindiv.appendChild(spacer);
+					
+					fieldSelect = domConstruct.create("div", {id: this.sliderpane.id + entry.name, style:"margin-top:10px;margin-bottom:10px"});
+					maindiv.appendChild(fieldSelect);
+							
+					this.fieldSelect = new Select({
+						name: entry.name,
+						style: "width: 135px",
+						options: [
+							{ label: entry.options[0].label, value: entry.options[0].value, selected: entry.options[0].selected, disabled: entry.options[0].disabled },
+							{ label: entry.options[1].label, value: entry.options[1].value, selected: entry.options[1].selected },
+							{ label: entry.options[2].label, value: entry.options[2].value, selected: entry.options[2].selected },
+							{ label: entry.options[3].label, value: entry.options[3].value, selected: entry.options[3].selected },
+							{ label: entry.options[4].label, value: entry.options[4].value, selected: entry.options[4].selected }
+						],
+						onChange: lang.hitch(this,function(e) {
+							this.fieldSelected(e);
+						})
+					}, fieldSelect);
+					
+					equals = domConstruct.create("div", {style:"display:inline; margin-top:10px; margin-bottom:10px;", innerHTML: " = "});
+					maindiv.appendChild(equals);
+					// Attribute Holder Select	
+					attHolder = domConstruct.create("div", {style:"display:inline; margin-top:10px;margin-bottom:10px"});
+					maindiv.appendChild(attHolder);
+					console.log(entry.AttHolder[0])
+					this.attHolderSelect = new Select({
+						id: this.sliderpane.id + "attHolder", 
+						name: "attHolder",
+						style: "width: 120px; display: " + entry.AttHolder[0].display,
+						options: [
+							{ label: entry.AttHolder[0].label, value: entry.AttHolder[0].value, selected: entry.AttHolder[0].selected, disabled: entry.AttHolder[0].disabled }
+						]
+					}, attHolder);
+					
+					//Habitat Select
+					habitatSelect = domConstruct.create("div", {style:"display:inline; margin-top:10px;margin-bottom:10px"});
+					maindiv.appendChild(habitatSelect);
+							
+					this.habitatSelect = new Select({
+						id: this.sliderpane.id + "Habitat", 
+						name: "habitat",
+						style: "width: 120px; display: " + entry.Habitat[0].display,
+						options: [
+							{ label: entry.Habitat[0].label, value: entry.Habitat[0].value, selected: entry.Habitat[0].selected, disabled: entry.Habitat[0].disabled },
+							{ label: entry.Habitat[1].label, value: entry.Habitat[1].value, selected: entry.Habitat[1].selected },
+							{ label: entry.Habitat[2].label, value: entry.Habitat[2].value, selected: entry.Habitat[2].selected },
+							{ label: entry.Habitat[3].label, value: entry.Habitat[3].value, selected: entry.Habitat[3].selected },
+							{ label: entry.Habitat[4].label, value: entry.Habitat[4].value, selected: entry.Habitat[4].selected },
+							{ label: entry.Habitat[5].label, value: entry.Habitat[5].value, selected: entry.Habitat[5].selected },
+							{ label: entry.Habitat[6].label, value: entry.Habitat[6].value, selected: entry.Habitat[6].selected },
+							{ label: entry.Habitat[7].label, value: entry.Habitat[7].value, selected: entry.Habitat[7].selected },
+							{ label: entry.Habitat[8].label, value: entry.Habitat[8].value, selected: entry.Habitat[8].selected },
+							{ label: entry.Habitat[9].label, value: entry.Habitat[9].value, selected: entry.Habitat[9].selected }
+						],
+						onChange: lang.hitch(this,function(e) {
+							this.attributeSelected(e);
+						})
+					}, habitatSelect);
+					
+					//ProjectObjective Select
+					projectObSelect = domConstruct.create("div", {style:"display:inline; margin-top:10px;margin-bottom:10px"});
+					maindiv.appendChild(projectObSelect);
+							
+					this.projectObSelect = new Select({
+						id: this.sliderpane.id + "ProjectObjective", 
+						name: "projectObjective",
+						style: "width: 120px; display: " + entry.ProjectObjective[0].display,
+						options: [
+							{ label: entry.ProjectObjective[0].label, value: entry.ProjectObjective[0].value, selected: entry.ProjectObjective[0].selected, disabled: entry.ProjectObjective[0].disabled },
+							{ label: entry.ProjectObjective[1].label, value: entry.ProjectObjective[1].value, selected: entry.ProjectObjective[1].selected },
+							{ label: entry.ProjectObjective[2].label, value: entry.ProjectObjective[2].value, selected: entry.ProjectObjective[2].selected },
+							{ label: entry.ProjectObjective[3].label, value: entry.ProjectObjective[3].value, selected: entry.ProjectObjective[3].selected }
+						],
+						onChange: lang.hitch(this,function(e) {
+							this.attributeSelected(e);
+						})
+					}, projectObSelect);
+					
+					//Classification Select
+					classificationSelect = domConstruct.create("div", {style:"display:inline; margin-top:10px;margin-bottom:10px"});
+					maindiv.appendChild(classificationSelect);
+							
+					this.classificationSelect = new Select({
+						id: this.sliderpane.id + "Classification",
+						name: "classification",
+						style: "width: 120px; display: " + entry.Classification[0].display,
+						options: [
+							{ label: entry.Classification[0].label, value: entry.Classification[0].value, selected: entry.Classification[0].selected, disabled: entry.Classification[0].disabled },
+							{ label: entry.Classification[1].label, value: entry.Classification[1].value, selected: entry.Classification[1].selected },
+							{ label: entry.Classification[2].label, value: entry.Classification[2].value, selected: entry.Classification[2].selected },
+							{ label: entry.Classification[3].label, value: entry.Classification[3].value, selected: entry.Classification[3].selected },
+							{ label: entry.Classification[4].label, value: entry.Classification[4].value, selected: entry.Classification[4].selected },
+							{ label: entry.Classification[5].label, value: entry.Classification[5].value, selected: entry.Classification[5].selected }
+						],
+						onChange: lang.hitch(this,function(e) {
+							this.attributeSelected(e);
+						})
+					}, classificationSelect);
+					
+					//siteExposure Select
+					siteExposureSelect = domConstruct.create("div", {style:"display:inline; margin-top:10px;margin-bottom:10px"});
+					maindiv.appendChild(siteExposureSelect);
+							
+					this.siteExposureSelect = new Select({
+						id: this.sliderpane.id + "SiteExposure", 
+						name: "siteExposure",
+						style: "width: 120px; display: " + entry.SiteExposure[0].display,
+						options: [
+							{ label: entry.SiteExposure[0].label, value: entry.SiteExposure[0].value, selected: entry.SiteExposure[0].selected, disabled: entry.SiteExposure[0].disabled },
+							{ label: entry.SiteExposure[1].label, value: entry.SiteExposure[1].value, selected: entry.SiteExposure[1].selected },
+							{ label: entry.SiteExposure[2].label, value: entry.SiteExposure[2].value, selected: entry.SiteExposure[2].selected },
+							{ label: entry.SiteExposure[3].label, value: entry.SiteExposure[3].value, selected: entry.SiteExposure[3].selected },
+							{ label: entry.SiteExposure[4].label, value: entry.SiteExposure[4].value, selected: entry.SiteExposure[4].selected }
+						],
+						onChange: lang.hitch(this,function(e) {
+							this.attributeSelected(e);
+						})
+					}, siteExposureSelect);
+					
 				}	
 				if (entry.type == "featureLayer"){
 					// Create feature layer for display
@@ -486,77 +545,84 @@ function (declare,
 			this.vis = [5];
 			this.imageParameters.layerIds = this.vis;
 			this.imageParameters.layerOption = ImageParameters.LAYER_OPTION_SHOW;
-			this.currentLayer = new ArcGISDynamicMapServiceLayer(geography.url, {opacity:1, "imageParameters": this.imageParameters});
+			this.currentLayer = new ArcGISDynamicMapServiceLayer(this.config.url, {opacity:1, "imageParameters": this.imageParameters});
 			this.map.addLayer(this.currentLayer,3);
 		
 			this.resize();
+			
+			if (this.config.symbolizeBy != ""){
+				this.symbologySelected(this.config.symbolizeBy)
+			}
+			if (this.config.fieldSelected != ""){
+				this.fieldSelected(this.config.fieldSelected)
+			}
+			if (this.config.attributeSelected != ""){
+				this.attributeSelected(this.config.attributeSelected);
+			}
+			if (this.config.showAll != ""){
+				showAll();
+			}
 		},
 
 		fieldSelected: function(e){
-			this.vis = [];
-			this.vis.push(this.layerNum)
-			this.currentLayer.setVisibleLayers(this.vis);
-			this.layerDefs = [];
-			this.currentLayer.setLayerDefinitions(this.layerDefs);
-			this.flHover.setDefinitionExpression(this.flHover.defaultDefinitionExpression);
-			
-			this.hlField = e;
-			select = dijit.byId(this.sliderpane.id + "attSelect");
-			select.removeOption([0,1,2,3,4,5,6,7,8,9,10]);
-			if (e == "Habitat"){
-				this.field = e;
-				habOption = [
-					{label: "Attribute", value: "none", selected: false, disabled: "disabled"},
-					{label: "Coastal Dunes", value: "Coastal Dunes", selected: false},
-					{label: "Coral Reefs", value: "Coral Reefs", selected: false},
-					{label: "Mangroves", value: "Mangroves", selected: false},
-					{label: "Oyster Reefs", value: "Oyster Reefs", selected: false},
-					{label: "Reed (Freshwater)", value: "Reed (Freshwater)", selected: false},
-					{label: "Salt-marsh", value: "Salt-marsh", selected: false},
-					{label: "Seagrass", value: "Seagrass", selected: false},
-					{label: "Wetlands", value: "Wetlands", selected: false},
-					{label: "Willow", value: "Willow", selected: false}
-				];
-				select.addOption(habOption);	
+			if (e != 'field'){
+				this.config.fieldSelected = e;
+				this.config.attributeSelected = "";
+				this.config.showAll == ""
+				$.each(this.controls[2].options, function(i,v){
+					v.selected = false;
+				});
+				this.vis = [];
+				this.vis.push(this.layerNum)
+				this.currentLayer.setVisibleLayers(this.vis);
+				this.layerDefs = [];
+				this.currentLayer.setLayerDefinitions(this.layerDefs);
+				this.flHover.setDefinitionExpression(this.flHover.defaultDefinitionExpression);
+				
+				this.hlField = e;
+				if (e != undefined){
+					$('#' + this.sliderpane.id + "attHolder").hide();
+					$('#' + this.sliderpane.id + "Habitat").hide();
+					$('#' + this.sliderpane.id + "ProjectObjective").hide();
+					$('#' + this.sliderpane.id + "Classification").hide();
+					$('#' + this.sliderpane.id + "SiteExposure").hide();
+					this.controls[2].AttHolder[0].display = "none !important;";
+					this.controls[2].Habitat[0].display = "none !important;";
+					this.controls[2].ProjectObjective[0].display = "none !important;";
+					this.controls[2].Classification[0].display = "none !important;";
+					this.controls[2].SiteExposure[0].display = "none !important;";
+				}			
+				if (e == "Habitat"){
+					this.field = e;
+					$('#' + this.sliderpane.id + e).show();
+					this.controls[2].Habitat[0].display = "inline-block;";
+					this.controls[2].options[1].selected = true;
+				}
+				if (e == "ProjectObjective"){
+					this.field = e;
+					$('#' + this.sliderpane.id + e).show();
+					this.controls[2].ProjectObjective[0].display = "inline-block;";
+					this.controls[2].options[2].selected = true;
+				}
+				if (e == "Classification"){
+					this.field = e;
+					$('#' + this.sliderpane.id + e).show();
+					this.controls[2].Classification[0].display = "inline-block;";
+					this.controls[2].options[3].selected = true;				
+				}
+				if (e == "SiteExposure"){
+					this.field = e;
+					$('#' + this.sliderpane.id + e).show();
+					this.controls[2].SiteExposure[0].display = "inline-block;";
+					this.controls[2].options[4].selected = true;				
+				}
 			}
-			if (e == "ProjectObjective"){
-				this.field = e;
-				prjOption = [
-					{label: "Attribute", value: "none", selected: false, disabled: "disabled"},
-					{label: "Erosion Mitigation", value: "Erosion Mitigation", selected: false},
-					{label: "Flood Defense", value: "Flood Defense", selected: false},
-					{label: "Wave Attenuation", value: "Wave Attenuation", selected: false}
-				];
-				select.addOption(prjOption);	
-			}
-			if (e == "Classification"){
-				this.field = e;
-				habOption = [
-					{label: "Attribute", value: "none", selected: false, disabled: "disabled"},
-					{label: "Bay", value: "Bay", selected: false},
-					{label: "Estuary", value: "Estuary", selected: false},
-					{label: "Lagoon", value: "Lagoon", selected: false},
-					{label: "Open Coast", value: "Open Coast", selected: false},
-					{label: "River", value: "River", selected: false}
-				];
-				select.addOption(habOption);	
-			}
-			if (e == "SiteExposure"){
-				this.field = e;
-				habOption = [
-					{label: "Attribute", value: "none", selected: false, disabled: "disabled"},
-					{label: "Low", value: "Low", selected: false},
-					{label: "Moderate", value: "Moderate", selected: false},
-					{label: "High", value: "High", selected: false},
-					{label: "Very High", value: "Very High", selected: false}
-				];
-				select.addOption(habOption);	
-			}
-		//	$('#' + this.sliderpane.id + "select2").slideDown();
 		},
 		
 		attributeSelected: function(e){
+			this.config.attributeSelected = e;
 			this.exp = this.field + "='" + e + "'";
+			this.config.showAll == ""
 			this.flHover.setDefinitionExpression(this.exp);
 			this.layerDefs[this.layerNum] = this.exp;
 			this.currentLayer.setLayerDefinitions(this.layerDefs);
@@ -564,41 +630,112 @@ function (declare,
 			this.vis.push(this.layerNum)
 			this.currentLayer.setVisibleLayers(this.vis);
 			this.defSet = "yes";
+			$.each(this.controls[2].Habitat, function(i,v){
+				v.selected = false;
+			})
+			$.each(this.controls[2].ProjectObjective, function(i,v){
+				v.selected = false;
+			})
+			$.each(this.controls[2].Classification, function(i,v){
+				v.selected = false;
+			})
+			$.each(this.controls[2].SiteExposure, function(i,v){
+				v.selected = false;
+			})			
+			
+			if (e == "Coastal Dunes"){this.controls[2].Habitat[1].selected = true;}	
+			if (e == "Coral Reefs"){this.controls[2].Habitat[2].selected = true;}	
+			if (e == "Mangroves"){this.controls[2].Habitat[3].selected = true;}	
+			if (e == "Oyster Reefs"){this.controls[2].Habitat[4].selected = true;}	
+			if (e == "Reed (Freshwater)"){this.controls[2].Habitat[5].selected = true;}	
+			if (e == "Salt-marsh"){this.controls[2].Habitat[6].selected = true;}	
+			if (e == "Seagrass"){this.controls[2].Habitat[7].selected = true;}	
+			if (e == "Wetlands"){this.controls[2].Habitat[8].selected = true;}	
+			if (e == "Willow"){this.controls[2].Habitat[9].selected = true;}
+			if (e == "Erosion Mitigation"){this.controls[2].ProjectObjective[1].selected = true;}	
+			if (e == "Flood Defense"){this.controls[2].ProjectObjective[2].selected = true;}	
+			if (e == "Wave Attenuation"){this.controls[2].ProjectObjective[3].selected = true;}	
+			if (e == "Bay"){this.controls[2].Classification[1].selected = true;}	
+			if (e == "Estuary"){this.controls[2].Classification[2].selected = true;}	
+			if (e == "Lagoon"){this.controls[2].Classification[3].selected = true;}	
+			if (e == "Open Coast"){this.controls[2].Classification[4].selected = true;}	
+			if (e == "River"){this.controls[2].Classification[5].selected = true;}		
+			if (e == "Low"){this.controls[2].SiteExposure[1].selected = true;}	
+			if (e == "Moderate"){this.controls[2].SiteExposure[2].selected = true;}	
+			if (e == "High"){this.controls[2].SiteExposure[3].selected = true;}	
+			if (e == "Very High"){this.controls[2].SiteExposure[4].selected = true;}	
 		},
 		
 		symbologySelected: function(e){
-			this.layerNum = e;
-			if (this.defSet == "yes"){
-				this.layerDefs[this.layerNum] = this.exp;
-				this.currentLayer.setLayerDefinitions(this.layerDefs);
+			if (e != 'field'){
+				this.config.symbolizeBy = e;
+				this.layerNum = e;
+				this.config.showAll == ""
+				if (this.defSet == "yes"){
+					this.layerDefs[this.layerNum] = this.exp;
+					this.currentLayer.setLayerDefinitions(this.layerDefs);
+				}
+				this.vis = [];
+				this.vis.push(this.layerNum)
+				this.currentLayer.setVisibleLayers(this.vis);
+				$.each(this.controls[1].options, function(i,v){
+					v.selected = false;
+				});
+				if (e == 0){this.controls[1].options[1].selected = true;}	
+				if (e == 1){this.controls[1].options[2].selected = true;}	
+				if (e == 2){this.controls[1].options[3].selected = true;}	
+				if (e == 3){this.controls[1].options[4].selected = true;}	
 			}
-			this.vis = [];
-			this.vis.push(this.layerNum)
-			this.currentLayer.setVisibleLayers(this.vis);
 		},
 		
 		showAll: function(){
-			//this.layerNum = 5;
+			this.config.showAll == "yes"
 			this.defSet = "no";
 			this.vis = [];
-			this.vis.push(this.layerNum)
+			this.vis.push(5)
 			this.currentLayer.setVisibleLayers(this.vis);
 			this.layerDefs = [];
 			this.currentLayer.setLayerDefinitions(this.layerDefs);
 			this.flHover.setDefinitionExpression(this.flHover.defaultDefinitionExpression);
-			attselect = dijit.byId(this.sliderpane.id + "attSelect");
-			attselect.removeOption([0,1,2,3,4,5,6,7,8,9,10]);
-			attselect.addOption([{label: "Attribute", value: "none", selected: false, disabled: "disabled"}])
-			fldselect = dijit.byId(this.sliderpane.id + "fieldSelect");
-			fldselect.removeOption([0,1,2,3,4]);
-			fldOption = [
-				{label: "Field", value: "none", selected: false, disabled: "disabled"},
-				{label: "Habitat", value: "Habitat", selected: false},
-				{label: "Project Objective", value: "ProjectObjective", selected: false},
-				{label: "Coastal Classification", value: "Classification", selected: false},
-				{label: "Site Exposure", value: "SiteExposure", selected: false}
-			];
-			fldselect.addOption(fldOption);			
+			
+			//reset symbology dropdown
+			this.symSelect.set('value', 'field');
+			$.each(this.controls[1].options, function(i,v){
+				v.selected = false;
+			});
+			
+			//reset field dropdown
+			this.fieldSelect.set('value', 'field')
+			$.each(this.controls[2].options, function(i,v){
+				v.selected = false;
+			});
+			
+			//reset attribute dropdown
+			$('#' + this.sliderpane.id + "Habitat").hide();
+			$('#' + this.sliderpane.id + "ProjectObjective").hide();
+			$('#' + this.sliderpane.id + "Classification").hide();
+			$('#' + this.sliderpane.id + "SiteExposure").hide();
+			this.controls[2].Habitat[0].display = "none !important;";
+			this.controls[2].ProjectObjective[0].display = "none !important;";
+			this.controls[2].Classification[0].display = "none !important;";
+			this.controls[2].SiteExposure[0].display = "none !important;";
+			$('#' + this.sliderpane.id + "attHolder").show();
+			this.controls[2].AttHolder[0].display = "inline-block;";
+			$.each(this.controls[2].Habitat, function(i,v){
+				v.selected = false;
+			})
+			$.each(this.controls[2].ProjectObjective, function(i,v){
+				v.selected = false;
+			})
+			$.each(this.controls[2].Classification, function(i,v){
+				v.selected = false;
+			})
+			$.each(this.controls[2].SiteExposure, function(i,v){
+				v.selected = false;
+			})
+			
+			/*fldselect = dijit.byId(this.sliderpane.id + "fieldSelect");
+			*/	
 		},
 		
 		findFPUs: function(evt){
@@ -650,12 +787,15 @@ function (declare,
 		},
 		
 		getState: function () { 
-			state = this.geography;
-			return state
+			var state = new Object();
+			state = this.config;
+			return state;	
 		},
 				
 		setState: function (state) { 
-
+			this.config = state;	
+			console.log(this.config)					
+			this.controls = this.config.controls;
 		},
     });
 });
