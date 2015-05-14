@@ -118,7 +118,7 @@
             "title": "Getting Started",
             "description": "Coastal Resilience is a decision support tool that provides local, state and national planners a step-wise process to guide decisions to reduce the ecological and socio-economic risks of coastal hazards",
             "showSubRegions": true,
-            "showByDefault": false,
+            "showByDefault": true,
             "categories": [
               {
                 "name": "One-click Interactive Map",
@@ -128,7 +128,7 @@
                       "name": "Coasts at Risk",
                       "description": "Combined storm surge and sea level condition in the Florida Keys",
                       "saveCode": "e34df34rd3....3434",
-                      "saveCode": "eyJtYXAwIjrEgGV4dGVudMSGxIB0eXBlxIYixInEi8SNIiwieG1pbsSGLTEzMDYxNTU5LjM5MzM2NzQ0NcSbecSexKA6LTXEsMSwMzUuMMSlMMSvNDc3xJvEnWF4xIbEo8SlxKfEqcSrxK3Er8SxxLPEtcSCxYs6NsSpMjMyxL8yNzgwNzDFhTLEm3NwYXRpYWxSZWZlcsSMY8SUxIcid2tpZMWMMDIxxYHEm2zFq2VzdFfFu8W9OjM4NTd9xJtfxapydHPEhlvEiMSKxIzEjsW4xJHEk8SVxJfGnMSaxJzEt8ShxY3EpsSoxKrErMSuxLDEssS0IsS2xJ/EocS7N8S9xL/FgTbFgzbFhcWHxqXFisWMxKTGqcWQxqzFk8avxZbHgMWZxZvFncWfxaHFo8WlN8WnIsWpxavFrcWvxbHFs8W1xbfEgMW6xbzFvsaAxoIixoTEi8aHxonHnsaMxo7GkMaRImZyYW1lSWTGlzpbMF19x7jFqGVsZWPEi2RCYXNlxIJwSW5kxInEhjDHq8WqbmXEhcW4yI9lTnVtYsWzyIzFqHTGhU9mUGx1Z8Sfx7TEgMiEx73Hv2VkyKHIo8azOm51bGzEm3DIosikbsimIsi2yK7IuS/GhHnFs1/IqMe+dG9yxI8icm9vdC9HbG9ixa4gRGlzyIPEi3IgQce9xpUgYciJIEPJjHJkxJ/HlW9uIFN5xofIhS9nZGFjc8mdxbPGlkHHv2l2ZUJHyYlvxapjacSRyIwuxrBjaMe+a8irxIZmxa7IhMeryYvJjS/JpMmZyZTFsHNpbGnHmiAoyZDJksWuKcmPyZHJk2zKgcqDyoV5yofGvsqKyozKjjrKkGzKkn3Kt8q3",
+                      "saveCode": "eyJzY3JlZW4iOsSAc3BsaXRTxIPEhcSHOmZhbHNlLMSBeW5jTWFwc8SIxJXEl2V9xJptxKAwxIjEgGV4dMSGdMSsInR5cGXEiCLErsSwbsSyxJp4bWnEky0xMjgxNjk2MC45MMWGNTQ5NDfEmnnFgcWDNTM2xZs0OMWNM8WHODDFlDjEv8SpeMSIxYXFh8WJxYvFjcWPOMWRxZPFlSLFl2HFqTo2Mjc5MjM5LjIxxY8xNMWUM8SaxIthdGnEllJlZmXEhMSdxLjEiSJ3a2lkxarGhDAwxJpsxotlc3RXxpnGmzrFoTU3xKciX3BhcnTEojpbxK3Er8SxxLPEtcS3xLnEu8a5xafFgsSIxYTFhsWIxYrFjMWOxZDFksWUxZbFmMeCxZrFnDbFnsWgxaLFpDfFpiLFgMW3xarHhMWtx4fFsMWyx4vFtcWoxIjFusW8xb7GgMaCxoTGhjfGiMSBxrDGjMaOxpDGksSGY8aVxIDGmMaaxpzHqcafIsahxLDGpMamx7nGqcWxxqzGrWZyYW1lSWTGtFswXX3IkcaJZWxlY8SwZEJhxJjEqXBJbmTErsSIMsatxrBuZcSrxpbIp2VOdW1ixpLEiMe8xqTGok9mUGx1Z8WCxrTEisiVyJfImci5yLvHgToixIzJhG5zL8ahecaSX8SYyJbImG9yIsSayYjIvMmKxLPJmMi9yYxhyY5yyZDJgMmTyZXGlnJvb3QvR2xvYsSWIERpc8icxLByIEHIlsayIGHIoSBDyahyZMWCxotpb24gU3nGpGVtL2dkYWNzybnGksazQciYaXZlQkc1NseWxLNvxrBjxI55yLMuNcSaY2jIl2tlxqjEpMSYxq3Km3JzyobEkyIxLjHJliLJp8mpyavJrcmvbMmxybPJtcaSybjJunTJvMm+yoDJlMqDbsqFyofKicqLxLDKjsqQypLKlMuLypTKmcqbyp3FhcqiyqTKpsqoyqoiyqzKrsqwxKPElsqzxJrLgMmqyazJrsmwybLJtMqMybfKlcm7yb1kyb/KgcuRy5PKiMqKyozLmMqRypPLuMqXy57KnEczy6LKksukOsWMy6bLqGPKr8qxy6zEpsuuyajLsMuDy7PLh8u2y4rKlsuNy7vLj8qCyoTGjMuUzIHLl8qPzITLm8qWy53GjMufRzTMjMqlxLXLpcqryq3Mk8uqxJTMlsaty68vyoDJtcmwxo/Kt8SNx7RlICjLscuEKcuCy7JsxYUzNMqfx5Y5xoMxzZfGgjPGhcyzzI7FjMW0zJLMlMSIdHJ1xJkidsmzaWLIlkzJn8aSyIzIjsaFyJPKv8yZzL9vzYHLhc2Dac2FxpTNiM2KxJbNjM2/zY82MTfNnMy1zI8uzZ/MuM2hzLvEpcy9zbXNgMi1zbnGo827ac2Gzb7Mm2zOgc6aMcW9xoTOh8qnzonOi8upzJXOj8yYy4HOknTNgs6VzbzHtc6ZzY7OnM2Oxb4yNDI1MselxYYyOc6hyqjOpMy5zqbLrc20zqnNt86TIM26zq7Nh82JzprOssuEzZozxb4zzZE0yKrEgMqjzI3OiM2ezLfOpcurzqfPhMmqzqrOrM2EzpfNvc+MzrHNjcuExZTFnsWSNTA1Mc64zr7Oo8+cz4HPnsqzfc+5z7k=",
                       "faIcon": "fa fa-life-bouy",
                       "faSize": 32
                     },
