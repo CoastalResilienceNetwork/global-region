@@ -12,115 +12,26 @@ require({
 app = {}
 
 define([
-	"dojo/_base/declare",
-	"framework/PluginBase",
-	'plugins/natural_defenses/ConstrainedMoveable',
-	'plugins/natural_defenses/jquery-ui-1.11.0/jquery-ui',
+	"dojo/_base/declare", "framework/PluginBase", "plugins/natural_defenses/ConstrainedMoveable", "plugins/natural_defenses/jquery-ui-1.11.0/jquery-ui",
 		
-	"esri/request", 
-	"esri/layers/ArcGISDynamicMapServiceLayer",
-	"esri/layers/ImageParameters",
-	"esri/layers/ArcGISImageServiceLayer",
-	"esri/layers/ImageServiceParameters",
-	"esri/layers/RasterFunction",
-	"esri/tasks/ImageServiceIdentifyTask",
-	"esri/tasks/ImageServiceIdentifyParameters",
-	"esri/tasks/IdentifyParameters",
-	"esri/tasks/IdentifyTask",
-	"esri/tasks/QueryTask",
-	"esri/tasks/query",
-	"esri/graphicsUtils",
-	"esri/geometry/Extent", 
-	"esri/SpatialReference",
-		
-	"esri/symbols/SimpleLineSymbol",
-	"esri/symbols/SimpleFillSymbol",
-	"esri/symbols/SimpleMarkerSymbol",
-	"esri/layers/FeatureLayer",
-	"dojo/_base/Color",
+	"esri/request", "esri/layers/ArcGISDynamicMapServiceLayer",	"esri/layers/ImageParameters", "esri/tasks/query",	"esri/geometry/Extent", "esri/SpatialReference",
+	"esri/symbols/SimpleLineSymbol", "esri/symbols/SimpleFillSymbol", "esri/symbols/SimpleMarkerSymbol", "esri/layers/FeatureLayer", "dojo/_base/Color",
+	"esri/geometry/Point", "esri/graphic",
 	
-	"dijit/form/Button",
-	"dijit/form/DropDownButton",
-	"dijit/DropDownMenu", 
-	"dijit/MenuItem",
-	"dijit/layout/ContentPane",
-	"dijit/layout/TabContainer",
-	"dijit/form/HorizontalSlider",
-	"dojox/form/RangeSlider",
-	"dijit/form/HorizontalRule",
-	"dijit/form/CheckBox",
-	"dijit/form/RadioButton",
-	"dijit/form/TextBox",
-	"dijit/form/Select",
-	"dojo/dom",
-	"dojo/dom-class",
-	"dojo/dom-style",
-	"dojo/_base/window",
-	"dojo/dom-construct",
-	"dojo/dom-attr",
-	"dojo/dom-geometry",
-		
-	"dojo/_base/array",
-	"dojo/_base/lang",
-	"dojo/domReady!",
-	"dojo/on",
-	"dojo/query",
-	"dojo/parser",
-	"dojo/NodeList-traverse",
+	"dijit/form/Button", "dijit/layout/ContentPane", "dijit/layout/TabContainer", "dijit/form/Select", "dojo/dom", "dojo/dom-class", "dojo/dom-style", 
+	"dojo/_base/window", "dojo/dom-construct", "dojo/dom-attr", "dojo/dom-geometry", "dojo/_base/array", "dojo/_base/lang", "dojo/domReady!", "dojo/on", 
+	"dojo/query", "dojo/parser", "dojo/NodeList-traverse",
         
 	"dojo/text!./naturaldefenses.json"
 ],
-function (declare, 
-	PluginBase,
-	ConstrainedMoveable,
-	ui,	
-	ESRIRequest,
-	ArcGISDynamicMapServiceLayer,
-	ImageParameters,
-	ArcGISImageServiceLayer,
-	ImageServiceParameters,
-	RasterFunction,
-	ImageServiceIdentifyTask,
-	ImageServiceIdentifyParameters,
-	IdentifyParameters,
-	IdentifyTask,
-	QueryTask,
-	esriQuery,
-	graphicsUtils,
-	Extent, 
-	SpatialReference,
-	SimpleLineSymbol,
-	SimpleFillSymbol,
-	SimpleMarkerSymbol,
-	FeatureLayer,
-	Color,
-	Button,
-	DropDownButton, 
-	DropDownMenu, 
-	MenuItem,
-	ContentPane,
-	TabContainer,
-	HorizontalSlider,
-	RangeSlider,
-	HorizontalRule,
-	CheckBox,
-	RadioButton,
-	Textbox,
-	Select,
-	dom,
-	domClass,
-	domStyle,
-	win,
-	domConstruct,
-	domAttr,
-	domGeom,
-	array,
-	lang,
-	domReady,
-	on,
-	dojoquery,
-	parser,
+function (declare, PluginBase, ConstrainedMoveable, ui,	
+	
+	ESRIRequest, ArcGISDynamicMapServiceLayer, ImageParameters, esriQuery, Extent, SpatialReference, SimpleLineSymbol, SimpleFillSymbol, SimpleMarkerSymbol,
+	FeatureLayer, Color, Point, Graphic,
+	
+	Button, ContentPane, TabContainer, Select, dom, domClass, domStyle, win, domConstruct, domAttr, domGeom, array, lang, domReady, on, dojoquery, parser,
 	domNodeTraverse,
+
 	explorer
 ){
 	return declare(PluginBase, {
@@ -289,9 +200,16 @@ function (declare,
 			on(this.tabareacloser, "click", lang.hitch(this,function(e){
 				domStyle.set(this.tabarea.domNode, 'display', 'none');
 				this.flClick.clear();
+				this.config.idenGraphic = "";
+				this.config.idenAtts = "";
 			}));
 			
 			$( '#' + this.sliderpane.id + 'tabs' ).tabs();
+			var config = this.config;
+			$( '#' + this.sliderpane.id + 'tabs' ).on( "tabsactivate", function( event, ui ) {
+				config.tabSelected = ui.newTab.index();
+				this.config = config;
+			});
 			
 			var p = new ConstrainedMoveable(
 				dom.byId(this.tabarea.id), {
@@ -400,7 +318,6 @@ function (declare,
 					// Attribute Holder Select	
 					attHolder = domConstruct.create("div", {style:"display:inline; margin-top:10px;margin-bottom:10px"});
 					maindiv.appendChild(attHolder);
-					console.log(entry.AttHolder[0])
 					this.attHolderSelect = new Select({
 						id: this.sliderpane.id + "attHolder", 
 						name: "attHolder",
@@ -508,11 +425,11 @@ function (declare,
 						outFields: entry.outfields
 					});					
 					// set feature layer symbology
-					var pntSym0 = new SimpleMarkerSymbol(SimpleMarkerSymbol.STYLE_CIRCLE, 15,
+					this.pntSym = new SimpleMarkerSymbol(SimpleMarkerSymbol.STYLE_CIRCLE, 15,
 								   new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,
 								   new Color([255,0,0]), 3),
 								   new Color([0,255,0,0]));
-					this.flClick.setSelectionSymbol(pntSym0);				
+					this.flClick.setSelectionSymbol(this.pntSym);				
 					// add feature layer to map
 					this.map.addLayer(this.flClick);	
 					this.map.addLayer(this.flHover);	
@@ -523,7 +440,7 @@ function (declare,
 					}));	
 					// call function to capture and display selected feature layer attributes
 					dojo.connect(this.flClick, "onSelectionComplete", lang.hitch(this,function(features){
-						this.showAttributes(features);
+						this.showAttributes(features[0].attributes);
 					}));
 					dojo.connect(this.flHover, "onMouseOver", lang.hitch(this,function(e){
 						this.map.setMapCursor("pointer");
@@ -560,8 +477,19 @@ function (declare,
 				this.attributeSelected(this.config.attributeSelected);
 			}
 			if (this.config.showAll != ""){
-				showAll();
+				this.showAll();
 			}
+			if (this.config.idenAtts != ""){
+				this.showAttributes(this.config.idenAtts);
+			}
+			if (this.config.tabSelected != ""){
+				$('#' + this.sliderpane.id + 'tabs').tabs('option', 'active', this.config.tabSelected)
+			}
+			if (this.config.idenGraphic != ""){
+				var pt = new Point(this.config.idenGraphic.x,this.config.idenGraphic.y,this.map.spatialReference)
+				this.selectedGraphic = new Graphic(pt,this.pntSym);
+				this.map.graphics.add(this.selectedGraphic);
+			}			
 		},
 
 		fieldSelected: function(e){
@@ -739,6 +667,7 @@ function (declare,
 		},
 		
 		findFPUs: function(evt){
+			this.config.idenGraphic = evt.graphic.geometry;
 			var selectionQuery = new esriQuery();
 			var tol = this.map.extent.getWidth()/this.map.width * 4;
 			var x = evt.mapPoint.x;
@@ -749,8 +678,10 @@ function (declare,
 			this.flClick.selectFeatures(selectionQuery,esri.layers.FeatureLayer.SELECTION_NEW);
 		},
 		
-		showAttributes: function(features){
-			atts = features[0].attributes;
+		showAttributes: function(atts){
+			this.map.graphics.clear();
+			this.config.idenAtts = atts;
+			
 			this.tab1 = "<b>Habitat:</b> " + atts.Habitat + "<br>" +
 					"<b>Coastal Classification:</b> " + atts.Classification + "<br>" +
 					"<b>Country:</b> " + atts.Country + "<br>" +
@@ -763,7 +694,6 @@ function (declare,
 					"<b>Engineering Structure Present:</b> " + atts.EngineeringStructurePresent + "<br>" + 
 					"<b>Minimum Habitat Width (m):</b> " + atts.MinimumMeasured_AssumedHabitatWidth + "<br>" + 
 					"<b>Species:</b> " + atts.Species + "<br>"
-			console.log(atts.Links_2)
 			if (atts.Links_2 == "NA"){
 				this.tab4 = 	"<b>Project Objective:</b> " + atts.ProjectObjective + "<br>" +
 					"<b>Project Title:</b> " + atts.ProjectTitle + "<br>" +
@@ -782,8 +712,8 @@ function (declare,
 			$('#' + this.sliderpane.id + 'tabs-2').html(this.tab2)
 			$('#' + this.sliderpane.id + 'tabs-3').html(this.tab3)
 			$('#' + this.sliderpane.id + 'tabs-4').html(this.tab4)
-
-			domStyle.set(this.tabarea.domNode, 'display', '');
+			
+			domStyle.set(this.tabarea.domNode, 'display', '');					
 		},
 		
 		getState: function () { 
@@ -793,8 +723,7 @@ function (declare,
 		},
 				
 		setState: function (state) { 
-			this.config = state;	
-			console.log(this.config)					
+			this.config = state;						
 			this.controls = this.config.controls;
 		},
     });
