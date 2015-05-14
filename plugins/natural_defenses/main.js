@@ -52,12 +52,12 @@ function (declare, PluginBase, ConstrainedMoveable, ui,
 			
 			con = dom.byId('plugins/natural_defenses-0');
 			domStyle.set(con, "width", "310px");
-			domStyle.set(con, "height", "300px");
+			domStyle.set(con, "height", "278px");
 			
 			con1 = dom.byId('plugins/natural_defenses-1');
 			if (con1 != undefined){
 				domStyle.set(con1, "width", "310px");
-				domStyle.set(con1, "height", "300px");
+				domStyle.set(con1, "height", "278px");
 			}
 			
 			if (this.config.betweenGroups == undefined) {
@@ -138,10 +138,10 @@ function (declare, PluginBase, ConstrainedMoveable, ui,
 		resize: function(w, h) {
 			cdg = domGeom.position(this.container);
 			if (cdg.h == 0) {
-				this.sph = this.height - 112 
+				this.sph = this.height - 112	 
 			} 
 			else {
-				this.sph = cdg.h-73;
+				this.sph = cdg.h-50;
 			}
 			domStyle.set(this.sliderpane.domNode, "height", this.sph + "px");
 		},
@@ -226,7 +226,7 @@ function (declare, PluginBase, ConstrainedMoveable, ui,
 			if (projectDesc != undefined) {
 				pdButton = new Button({
 					label: "Project Description",
-					style:  "float:left !important; margin-top:7px;",
+					style:  "float:left !important; margin-top:7px; margin-left:26px;",
 					onClick: function(){
 						window.open(projectDesc)
 					}
