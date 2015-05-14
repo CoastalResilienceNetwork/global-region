@@ -205,6 +205,11 @@ function (declare, PluginBase, ConstrainedMoveable, ui,
 			}));
 			
 			$( '#' + this.sliderpane.id + 'tabs' ).tabs();
+			var config = this.config;
+			$( '#' + this.sliderpane.id + 'tabs' ).on( "tabsactivate", function( event, ui ) {
+				config.tabSelected = ui.newTab.index();
+				this.config = config;
+			});
 			
 			var p = new ConstrainedMoveable(
 				dom.byId(this.tabarea.id), {
@@ -477,6 +482,9 @@ function (declare, PluginBase, ConstrainedMoveable, ui,
 			if (this.config.idenAtts != ""){
 				this.showAttributes(this.config.idenAtts);
 			}
+			if (this.config.tabSelected != ""){
+				$('#' + this.sliderpane.id + 'tabs').tabs('option', 'active', this.config.tabSelected)
+			}
 			if (this.config.idenGraphic != ""){
 				var pt = new Point(this.config.idenGraphic.x,this.config.idenGraphic.y,this.map.spatialReference)
 				this.selectedGraphic = new Graphic(pt,this.pntSym);
@@ -671,7 +679,9 @@ function (declare, PluginBase, ConstrainedMoveable, ui,
 		},
 		
 		showAttributes: function(atts){
+			this.map.graphics.clear();
 			this.config.idenAtts = atts;
+			
 			this.tab1 = "<b>Habitat:</b> " + atts.Habitat + "<br>" +
 					"<b>Coastal Classification:</b> " + atts.Classification + "<br>" +
 					"<b>Country:</b> " + atts.Country + "<br>" +
@@ -702,8 +712,8 @@ function (declare, PluginBase, ConstrainedMoveable, ui,
 			$('#' + this.sliderpane.id + 'tabs-2').html(this.tab2)
 			$('#' + this.sliderpane.id + 'tabs-3').html(this.tab3)
 			$('#' + this.sliderpane.id + 'tabs-4').html(this.tab4)
-
-			domStyle.set(this.tabarea.domNode, 'display', '');
+			
+			domStyle.set(this.tabarea.domNode, 'display', '');					
 		},
 		
 		getState: function () { 
