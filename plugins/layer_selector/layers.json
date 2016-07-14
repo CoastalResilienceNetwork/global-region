@@ -97,8 +97,8 @@
 						{ "name": "Global", "type":"dynamic", "displayName":"Ecoregions and Provinces", "showLayers": [		
                                 {"id":73, "parentLayerId":-1 },
                                 {"id":74, "parentLayerId":73 },
-                                {"id":75, "parentLayerId":-1 },
-                                {"id":76, "parentLayerId":-1 },
+                                {"id":75, "parentLayerId":73 },
+                                {"id":76, "parentLayerId":73 },
                                 {"id":68, "parentLayerId":-1 },
                                 {"id":69, "parentLayerId":-1 },
                                 {"id":70, "parentLayerId":-1 },
