@@ -54,15 +54,9 @@
         },
         "includeLayers": [
             {
-                "server": {
-                    "name": "FEMA_Region_IV_Coastal_Flood_Loss_Atlas_CFLA_Version_301"
-                },
-                "name": "CFLA_MOM_Storm_Surge_Footprints", 
-                "displayName": "Storm Surge"
-                },
-                {
-                "name": "CFLA_Data", 
-                "displayName": "Coastal Flood Loss"
+                "name": "FEMA_Region_IV_Coastal_Flood_Loss_Atlas_CFLA_Version_301",
+                "displayName": "Coastal Flood Atlas", 
+                "includeAllLayers": true
             }
         ]
     }
