@@ -24,6 +24,8 @@
                 "name": "Habitats",
                 "displayName": "Habitats",
                 "includeAllLayers": true
+           }
+        ]
     },
     {
         "displayName": "Coastal Hazards",
@@ -40,6 +42,8 @@
                 "name": "Hazards",
                 "displayName": "Hazards",
                 "includeAllLayers": true
+           }
+        ]
     },
     {
         "displayName": "FEMA Coastal Flood Hazards",
