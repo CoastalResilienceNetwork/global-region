@@ -86,7 +86,7 @@
                         "name": "Exposure (Social and Economic)",
                         "includeLayers": [
                             {
-                                "name": "Cyclonic Economic Exposure",
+                                "name": "Cyclone Economic Exposure",
                                 "includeAllLayers": true
                             },
                             {
