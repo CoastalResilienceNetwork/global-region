@@ -73,7 +73,6 @@
         "includeLayers": [
             { 
                 "name": "Hazards",
-                "displayName": "Hazards",
                 "includeLayers": [
                     {
                         "name": "Storm Hazards",
