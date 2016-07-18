@@ -46,14 +46,12 @@
         "server": {
             "type": "ags",
             "layerType": "dynamic",
-            "url": "http://regions.services.femadata.com/arcgis/rest/services"
+            "url": "http://regions.services.femadata.com/arcgis/rest/services/FEMA_R4/"
         },
         "includeLayers": [
             {
-                "url": "http://regions.services.femadata.com/arcgis/rest/services/FEMA_R4",
                 "name": "FEMA_Region_IV_Coastal_Flood_Loss_Atlas_CFLA_Version_301", 
-                "displayName": "Coastal Flood Loss Atlas",
-                "includeAllLayers": true
+                "displayName": "Coastal Flood Loss Atlas"
                      }
                 ]
             }
