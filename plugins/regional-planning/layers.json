@@ -74,8 +74,55 @@
             { 
                 "name": "Hazards",
                 "displayName": "Hazards",
-                "includeAllLayers": true
-           }
+                "includeLayers": [
+                    {
+                        "name": "Storm Hazards",
+                        "includeAllLayers": true
+                    },
+                    {
+                        "name": "Waves and Sea Level",
+                        "includeAllLayers": true
+                    },
+                    {
+                        "name": "Exposure (Social and Economic)",
+                        "includeLayers": [
+                            {
+                                "name": "Cyclonic Economic Exposure",
+                                "includeAllLayers": true
+                            },
+                            {
+                                "name": "Storm Surge Economic Exposure",
+                                "includeAllLayers": true
+                            },
+                            {
+                                "name": "Storm Surge Physical Exposure",
+                                "includeAllLayers": true
+                            },
+                            {
+                                "name": "Global population under 10m elevation (per sq km)"
+                            },
+                            {
+                                "name": "Gridded Global Population (per sq km)"
+                            },
+                            {
+                                "name": "Global GDP distributed by gridded population (US$ x 1000 per sq km)"
+                            },
+                            {
+                                "name": "Urban Areas (low income)"
+                            },
+                            {
+                                "name": "Urban Areas (total residential assets)"
+                            },
+                            {
+                                "name": "Urban Areas (total all assets)"
+                            },
+                            {
+                                "name": "Multi-Hazard Mortality Risk Index"
+                            }
+                        ]
+                    }
+                ]
+            }
         ]
     },
     {
