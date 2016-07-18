@@ -16,17 +16,17 @@
                 "includeAllLayers": true
             },
             {
-                "name": "Coastal Habitats",
+                "name": "Habitats",
                 "displayName": "Coastal Habitats",
                 "includeAllLayers": true
             },
             {
-                "name": "Coastal Hazards",
+                "name": "Hazards",
                 "displayName": "Coastal Hazards",
                 "includeAllLayers": true
             },
             {
-                "name": "Ecoregions & Provinces",
+                "name": "Ecoregions and Provinces",
                 "displayName": "Ecoregions & Provinces",
                 "includeAllLayers": true
             }

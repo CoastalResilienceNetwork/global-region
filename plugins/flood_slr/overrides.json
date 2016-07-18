@@ -3,5 +3,6 @@
     "width": 400,
     "resizable": false,
     "hasCustomPrint": true,
+    "name": "Flood & Sea Level Rise",
      "infoGraphic": "<div><img src='plugins/flood_slr/slr_flooding_c.jpg'/></div>"
 }
