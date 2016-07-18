@@ -18,7 +18,31 @@
             {
                 "name": "Ecoregions and Provinces",
                 "displayName": "Ecoregions & Provinces",
-                "includeAllLayers": true
+                "includeLayers": [
+                    {
+                        "name": "TNC Marine Ecoregions of the World"
+                    },
+                    {
+                        "name": "TNC Major Emphasis Areas"
+                    },
+                    {
+                        "name": "TNC Marine Provinces"
+                    },
+                    {
+                        "name": "TNC Expanding Areas"
+                    },
+                    {
+                        "name": "UNESCO Pelagic Provinces of the World"
+                    },
+                    {
+                        "name": "UNESCO Biomes of the World"
+                    },
+                    {
+                        "name": "UNESCO Pelagic Provinces of the World"
+                    },
+                    {
+                        "name": "Global Oceans Team 2016",
+                        "includeAllLayers": true
             },
             { 
                 "name": "Habitats",
