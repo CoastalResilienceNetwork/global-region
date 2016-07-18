@@ -2,7 +2,7 @@
     "googleAnalyticsPropertyId": "7401895-16",
 	"googleUrlShortenerApiKey": "AIzaSyCGRjZtPUN9LG1wG83JGUvEqHimxYjC510",
     "titleMain": { "text": "Coastal Resilience", "url": "http://coastalresilience.org/" },
-    "titleDetail": { "text": "SNAP Coastal Defenses", "url": "http://www.snap.is/groups/coastal-defenses/" },
+    "titleDetail": { "text": "Coastal Defenses using Natural Solutions", "url": "http://www.snap.is/groups/coastal-defenses/" },
 	"headerLinks": [
         { "text": "GET STARTED", "launchpadId": "get-started", "url": "" },
 		{ "text": "TOUR", "url": "javascript:;", "elementId": "help-overlay-start"},
@@ -43,7 +43,7 @@
     ],
     "pluginOrder": [
         "natural_defenses",
-        "layer_selector",
+        "regional-planning",
 		"flood_slr",
         "zoom_to",
         "measure",

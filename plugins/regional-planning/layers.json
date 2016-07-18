@@ -1,0 +1,35 @@
+[
+    {
+        "displayName": "Coasts at Risk",
+        "server": {
+            "type": "ags",
+            "layerType": "dynamic",
+            "url": "http://dev.services2.coastalresilience.org/arcgis/rest/services/Global/",
+            "name": "Global",
+            "reportGpUrl": "http://dev.services2.coastalresilience.org/arcgis/rest/services/DrawAndReport/getDrawAndReportDataMultiUnits/GPServer/getDrawAndReportDataMultiUnits",
+            "reportDbPath": "coastalresilience.gdb" 
+        },
+        "includeLayers": [
+            {
+                "name": "Coasts at Risk 2014",
+                "displayName": "Coasts at Risk 2014",
+                "includeAllLayers": true
+            },
+            {
+                "name": "Coastal Habitats",
+                "displayName": "Coastal Habitats",
+                "includeAllLayers": true
+            },
+            {
+                "name": "Coastal Hazards",
+                "displayName": "Coastal Hazards",
+                "includeAllLayers": true
+            },
+            {
+                "name": "Ecoregions & Provinces",
+                "displayName": "Ecoregions & Provinces",
+                "includeAllLayers": true
+            }
+        ]
+    }
+]
