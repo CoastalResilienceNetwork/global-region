@@ -1,6 +1,6 @@
 [
     {
-        "displayName": "Coasts at Risk",
+        "displayName": "Coastal Defenses",
         "server": {
             "type": "ags",
             "layerType": "dynamic",
@@ -11,18 +11,18 @@
         },
         "includeLayers": [
             {
-                "name": "Coasts at Risk 2014",
+                "name": "Coasts at Risk (2014)",
                 "displayName": "Coasts at Risk 2014",
                 "includeAllLayers": true
             },
             {
                 "name": "Habitats",
-                "displayName": "Coastal Habitats",
+                "displayName": "Habitats",
                 "includeAllLayers": true
             },
             {
                 "name": "Hazards",
-                "displayName": "Coastal Hazards",
+                "displayName": "Hazards",
                 "includeAllLayers": true
             },
             {

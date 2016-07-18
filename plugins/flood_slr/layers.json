@@ -9,6 +9,7 @@
         "includeLayers": [
             {
                 "name": "FEMA_Region_IV_Coastal_Flood_Loss_Atlas_CFLA_Version_301",
+                "groupFolder": "FEMA_R4",
                 "displayName": "Coastal Flood Atlas", 
                 "includeAllLayers": true
             }
