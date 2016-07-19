@@ -61,7 +61,7 @@
         ]
     },
     {
-        "displayName": "Coastal Hazards",
+        "displayName": "Coastal Storms, Sea Level & Exposure",
         "server": {
             "type": "ags",
             "layerType": "dynamic",
@@ -73,6 +73,7 @@
         "includeLayers": [
             { 
                 "name": "Hazards",
+                "displayName": "Hazards",
                 "includeLayers": [
                     {
                         "name": "Storm Hazards",
@@ -133,9 +134,40 @@
         },
         "includeLayers": [
             {
-                "name": "FEMA_Region_IV_Coastal_Flood_Loss_Atlas_CFLA_Version_301",
-                "displayName": "Coastal Flood Atlas", 
-                "includeAllLayers": true
+                "server": {
+                    "name": "FEMA_Region_IV_Coastal_Flood_Loss_Atlas_CFLA_Version_301"
+                },
+                "name": "CFLA Data",
+                "displayName": "Coastal Flood Loss Atlas",
+                "includeLayers": [
+                    {
+                        "name": "Building Loss Ratio",
+                        "includeAllLayers": true
+                    },
+                    {
+                        "name": "Debris in Tons",
+                        "includeAllLayers": true
+                    },
+                    {
+                        "name": "Debris in Truck Loads",
+                        "includeAllLayers": true
+                    },
+                    {
+                        "name": "Short Term Shelter Population",
+                        "includeAllLayers": true
+                    },
+                    {
+                        "name": "Per Capita Loss",
+                        "includeAllLayers": true
+                    },
+                    {
+                        "name": "Maximum Surge Depth (Ft)",
+                        "includeAllLayers": true
+                    },
+                    {
+                        "name": "SLOSH Basin Counties"
+                    }
+                ]    
             }
         ]
     }
