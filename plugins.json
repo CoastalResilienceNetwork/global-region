@@ -1,12 +1,8 @@
 {
   "plugins": [
 	{
-      "repo": "map-tree",
-      "name": "layer_selector"
-    },
-    {
-      "repo": "map-tree",
-      "name": "flood_slr"
+      "repo": "regional-planning",
+      "name": "regional-planning"
     }    
   ]
 }
